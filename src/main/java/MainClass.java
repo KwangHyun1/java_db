@@ -1,3 +1,4 @@
+import dto.Item;
 import java.sql.Connection;
 import java.sql.DriverManager;
 import java.sql.PreparedStatement;
@@ -8,6 +9,7 @@ import java.util.Scanner;
 public class MainClass {
 
     public static void main(String[] args) {
+
         Scanner s = new Scanner(System.in);
         System.out.print("아이템 등록\n이름 입력 : ");
         String name = s.nextLine();
@@ -19,9 +21,15 @@ public class MainClass {
         s.nextLine();
         System.out.print("효과 입력 : ");
         String hyo = s.nextLine();
+        //아이템 클레스에 입력 받은 내용들을 담아 보자
+        Item item = new Item();
+        item.setName(name);
+        item.setAtt(att);
+        item.setDem(dem);
+        item.setHyo(hyo);
 
         DBClass dc = new DBClass();
-        dc.insertItem(name, att, dem, hyo);
+        dc.insertItem(item);
         dc.selectItem();
     }
 }

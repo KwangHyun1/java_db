@@ -1,4 +1,5 @@
 import java.sql.*;
+import dto.Item;
 
 public class DBClass {
     //디비 연결메소드
@@ -63,12 +64,37 @@ public class DBClass {
                 }
             } catch (Exception e2) {
                 e2.printStackTrace();
-
-
             }
         }
+    }
+    public void insertItem(Item item) {
+        //쿼리문 준비
+        String sql = "INSERT INTO `item` (`name`, `att`, `dem`, `hyo`) VALUES (?, ?, ?, ?)";
+        PreparedStatement pstmt = null;
+        Connection conn = dbConn();
+        try {
+            pstmt = conn.prepareStatement(sql);
+            pstmt.setString(1, item.getName());
+            pstmt.setString(2, item.getAtt());
+            pstmt.setInt(3, item.getDem());
+            pstmt.setString(4, item.getHyo());
 
+            int result = pstmt.executeUpdate();
+            if (result == 1) {
+                System.out.println("아이템 데이터 삽입 성공!");
+            }
 
+        } catch (Exception e) {
+            System.out.println("아이템 데이터 삽입 실패!");
+        } finally {
+            try {
+                if (pstmt != null && !pstmt.isClosed()) {
+                    pstmt.close();
+                }
+            } catch (Exception e2) {
+                e2.printStackTrace();
+            }
+        }
     }
 
     // 데이터 검색 메소드
@@ -110,6 +136,7 @@ public class DBClass {
         }
 
     }
+
 
 
 }
